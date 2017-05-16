@@ -47,6 +47,29 @@ trait HasTranslations
 
     /**
      * @param string $key
+     * @param string $value
+     *
+     * @return mixed
+     */
+    public function getAttribute($key, $value)
+    {
+        if (!$this->isTranslatableAttribute($key)) {
+            return parent::setAttribute($key, $value);
+        }
+
+        if (is_string($value) && !json_decode($value)) {
+            return $this->setTranslation($key, config('app.locale'), $value);
+        }
+
+        if (is_string($value) && json_decode($value)) {
+            return $this->setTranslations($key, json_decode($value, true));
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param string $key
      * @param string $locale
      *
      * @return mixed
@@ -91,6 +114,9 @@ trait HasTranslations
     public function getTranslations($key) : array
     {
         $this->guardAgainstUntranslatableAttribute($key);
+
+        if (!json_decode(array_key_exists($key, $this->getAttributes()) ? $this->getAttributes()[$key] : ""))
+            return [config('app.fallback_locale') => $this->getAttributes()[$key] ?? ""];
 
         return json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true);
     }
