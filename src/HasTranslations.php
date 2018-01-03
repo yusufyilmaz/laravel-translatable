@@ -79,7 +79,7 @@ trait HasTranslations
         if ($name = $this->getTranslation($key, app()->getLocale())) {
             return $name;
         }else{
-            return $this->getTranslation($key, config('translatable.fallback_locale'), true);    
+            return $this->getTranslation($key, config('app.fallback_locale'));
         }
         
     }
