@@ -84,15 +84,6 @@ trait HasTranslations
         
     }
 
-    public function getTranslationIfFallback(string $key)
-    {
-        if ($name = $this->getTranslation($key, app()->getLocale())) {
-            return $name;
-        }else{
-            return $this->getTranslation($key, config('app.fallback_locale'));
-        }
-    }
-
     public function getTranslationWithFallback(string $key, string $locale)
     {
         return $this->getTranslation($key, $locale, true);
