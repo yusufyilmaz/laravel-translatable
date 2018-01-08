@@ -65,7 +65,7 @@ trait HasTranslations
 
         $translations = $this->getTranslations($key);
 
-        $translation = $translations[$locale] ?? '';
+        $translation = $translations[$locale] ?? null;
 
         if ($this->hasGetMutator($key)) {
             return $this->mutateAttribute($key, $translation);
@@ -98,7 +98,7 @@ trait HasTranslations
     {
         $this->guardAgainstUntranslatableAttribute($key);
 
-        return json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true);
+        return json_decode($this->getAttributes()[$key] ?? null ?: '{}', true);
     }
 
     /**
@@ -114,7 +114,7 @@ trait HasTranslations
 
         $translations = $this->getTranslations($key);
 
-        $oldValue = $translations[$locale] ?? '';
+        $oldValue = $translations[$locale] ?? null;
 
         if ($this->hasSetMutator($key)) {
             $method = 'set'.Str::studly($key).'Attribute';
